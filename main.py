@@ -72,18 +72,31 @@ def totalMaterialesNecesarios(cemento, arena, grava, agua, volumen):
     total_agua = agua * volumen
     return total_cemento, total_arena, total_grava, total_agua
 
+def presentarCliente(cliente, total_cemento, total_arena, total_grava, total_agua):
+    with open('cliente.csv', mode='w') as archivo:
+        archivo.write(f'Cliente: {cliente}\n')
+        archivo.write(f'---- Materiales necesarios ----\n')
+        archivo.write(f'Cemento (kg): {round(total_cemento, 2)}\n')
+        archivo.write(f'Arena (mt3): {round(total_arena, 2)}\n')
+        archivo.write(f'Grava (mt3): {round(total_grava, 2)}\n')
+        archivo.write(f'Agua (lts.): {round(total_agua, 2)}\n')
+    return archivo
+
+
 def main():
+    #Calculo volumen
     volumen = calculoVolumen()
     print(f'El volumen de la superficie es de {volumen} mts3')
     
+    #Resistencia y materiales necesarios
     resistencia = float(input('Resistencia necesaria de la superficie (En PSI o lb/cm2): '))
     cemento, arena, grava, agua = materialesNecesarios(resistencia)
 
     total_cemento, total_arena, total_grava, total_agua = totalMaterialesNecesarios(cemento, arena, grava, agua, volumen)
-    print(f'Cantidad total de cemento necesario: {round(total_cemento, 2)} kg')
-    print(f'Cantidad total de arena necesaria: {round(total_arena, 2)} mt3')
-    print(f'Cantidad total de grava necesaria: {round(total_grava, 2)} mt3')
-    print(f'Cantidad total de agua necesaria: {round(total_agua, 2)} lts')
+
+    #Creacion archivo csv
+    cliente = input('Ingrese el nombre del cliente: ')
+    presentarCliente(cliente, total_cemento, total_arena, total_grava, total_agua)
 
 main()
 
